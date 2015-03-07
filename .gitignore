@@ -1,12 +1,131 @@
-*.class
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+//Start of main Class
+public class CaseApp 
+{
+	//Start of main method
+	public static void main(String [] args) throws IOException
+	{
+		
+		//declaring initial values for the variables
+		int upperCase = 0;
+		int lowerCase = 0;
+		int specChar = 0;
+		String char1 = "$";
+		int pos = 0;
+		
+		//setting to value to true so that the loop can run
+		boolean capitalize = true;
+		
+		//created a buffered reader to grab input from the user
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		//setting the default values for the string until user inputs with keyboard
+		Case words = new Case(null);
+		Case words2 = new Case(null);
+		
+		//creating object2 incase first string changes to much
+		words2 = words;
+		
+		//Creating and name and then capitalizing it to add at end of string
+		String name = "James Lockhart";
+		String name2 = name.toUpperCase();
+		
+		//Program will now  ask for user input and store in class Case.java
+		System.out.println("Please enter 250 to begin the program.");
+		words.setWords(br.readLine());
+		
+		System.out.println("");
+		
+		//program will loop and find the Uppercase, Lowercase, and special characters
+		for(int i = 0; i < words.getWord().length(); i++)
+		{
+			if (Character.isUpperCase(words.getWord().charAt(i))) upperCase++;
+			if (Character.isLowerCase(words.getWord().charAt(i))) lowerCase++;
+			if ( words.getWord().charAt(i) == '!') specChar++;
+			if ( words.getWord().charAt(i) == '@') specChar++;
+			if ( words.getWord().charAt(i) == '#') specChar++;
+			if ( words.getWord().charAt(i) == '$') specChar++;
+		//end loop
+		}
+		
+		//uplow will create a value for how many letters there are
+		int uplow = upperCase + lowerCase;
+		System.out.printf("There are  %d uppercase letter in the paragraph.", upperCase);
+		System.out.printf("\n\nThere are %d letters and %d special characters in the paragraph.\n", uplow, specChar);
+		System.out.println("\nThe $ can be found at the following location:");
+		
+		//Index will run through while loop to show the char position of $
+		int index = words.getWord().indexOf(char1);
+		while (index >= 0)
+		{
+			System.out.print(index+", ");
+			index = words.getWord().indexOf(char1, index+1);		
+		//end while loop
+		}
+		
+		System.out.println("");
+		
+		//replacing $ with # in the string
+		String newString = words.getWord().replace('$', '#');
+		System.out.println("\nReplaced $ with # in the previous string:");
+		System.out.println(newString);
+		
+		//replaced the entire string with black lines and left only the # char
+		String only = newString.replaceAll("[^#]", "");
+		System.out.println("\nNew output will only display # in the string");
+		System.out.println(only);
+		
+		//Using the 2nd obj word2 to create first
+		String [] first = words2.getWord().split(" ");
+		
+		StringBuffer sb = new StringBuffer();
+		
+		//using sb to run the string througha  for loop and make ever first char uppercase
+		for (int i = 0; i < first.length; i++)
+		{
+		
+			sb.append(Character.toUpperCase(first[i].charAt(0)))
+			.append(first[i].substring(1)).append(" ");
+		//end for loop
+		}
+		
+		System.out.println("\nProgram will now capitalized every first letter of a word");
+		System.out.println(sb);
+		
+		//Take the string and add the capitalized name to the end
+		StringBuffer sb2 = new StringBuffer(words2.getWord() + name2);
+		
+		//using the while loop to first letter after ever '.'
+		while (pos < sb2.length())
+		{
+			if (sb2.charAt(pos)=='.')
+			{
+				capitalize = true;
+			}else if (capitalize && !Character.isWhitespace(sb2.charAt(pos)))
+			{
+				sb2.setCharAt(pos, Character.toUpperCase(sb2.charAt(pos)));
+		        capitalize = false;
+			}
+			pos++;
+		//end while loop	
+		}
+		
+	System.out.println("\nProgram will now capitalize the first letter after ever '.' ");	
+	System.out.println(sb2.toString());
+	
+	System.out.println("\nPlease enter your name to see if it equals James Lockhart:");
+	String newName = br.readLine();
+	System.out.println(newName.equals(name));
+	
+	System.out.println("\nPlease enter your name to see if it equals James Lockhart:");
+	String newName1 = br.readLine();
+	System.out.println(newName1.equals(name));
+	
+	//end of main method
+	}
+//end of main class
+}
